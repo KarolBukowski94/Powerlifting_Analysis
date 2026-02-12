@@ -1,17 +1,17 @@
-# 💪 Personal Lift Calculator
+# Personal Lift Calculator
 
 ## Age Group Slicer
 
-*💬 Age Group List defined in helper table on [page 2](DAX/02_Entry_Demographics.md).*
+*Commentary: Age Group List defined in helper table on [page 2](DAX/02_Entry_Demographics.md).*
 
 ## Weight Class Slicer
 
-*💬 Weight Class List defined in helper table on [page 2](DAX/02_Entry_Demographics.md).*
+*Commentary: Weight Class List defined in helper table on [page 2](DAX/02_Entry_Demographics.md).*
 
 ```
 Selected Sex = SELECTEDVALUE('02_Dim_lifter'[sex])
 ```
-*💬 Returns the selected sex (Male/Female) from slicer.*
+*Commentary: Returns the selected sex (Male/Female) from slicer.*
 
 ```
 Show Valid Class = 
@@ -21,19 +21,19 @@ IF (
     0
 )
 ```
-*💬 Returns 1 if the selected weight class matches the selected sex, 0 otherwise (used to filter invalid slicer combinations).*
+*Commentary: Returns 1 if the selected weight class matches the selected sex, 0 otherwise (used to filter invalid slicer combinations).*
 
 ## Bench Card
 
 ```
 Bench Input = GENERATESERIES(0, 650, 1)
 ```
-*💬 Creates a numeric input range (kg) for user-entered lift values.*
+*Commentary: Creates a numeric input range (kg) for user-entered lift values.*
 
 ```
 Bench User Value = SELECTEDVALUE('09. Lift Comparison - Bench'[Bench Input])
 ```
-*💬 Returns the user's selected bench press value from the input slicer.*
+*Commentary: Returns the user's selected bench press value from the input slicer.*
 
 ```
 Bench Group Avg = 
@@ -52,7 +52,7 @@ VAR _group =
 
 RETURN AVERAGEX(_group, '01_Powerlifting_facts'[bench])
 ```
-*💬 Computes the average bench press within the filtered comparison group.*
+*Commentary: Computes the average bench press within the filtered comparison group.*
 
 ```
 Bench Group Size = 
@@ -71,7 +71,7 @@ VAR _group =
 
 RETURN COUNTROWS(_group)
 ```
-*💬 Returns the number of valid entries in the comparison group (sample size).*
+*Commentary: Returns the number of valid entries in the comparison group (sample size).*
 
 ```
 Bench Percentile in Group = 
@@ -95,7 +95,7 @@ VAR _total = COUNTROWS(_group)
 
 RETURN DIVIDE(_lower_or_equal, _total)
 ```
-*💬 Calculates user's percentile based on bench press relative to filtered group (same sex, age, weight class, and optionally country).*
+*Commentary: Calculates user's percentile based on bench press relative to filtered group (same sex, age, weight class, and optionally country).*
 
 ```
 Bench Summary Text = 
@@ -126,19 +126,19 @@ IF(
     _feedback
 )
 ```
-*💬 Generates a summary message with percentile rank and lifter level classification.*
+*Commentary: Generates a summary message with percentile rank and lifter level classification.*
 
 ## Squat Card
 
 ```
 Squat Input = GENERATESERIES(0, 600, 1)
 ```
-*💬 Creates a numeric input range (kg) for user-entered lift values.*
+*Commentary: Creates a numeric input range (kg) for user-entered lift values.*
 
 ```
 Squat User Value = SELECTEDVALUE('10. Lift Comparison - Squat'[Squat Input])
 ```
-*💬 Returns the user's selected squat value from the input slicer.*
+*Commentary: Returns the user's selected squat value from the input slicer.*
 
 ```
 Squat Group Avg = 
@@ -157,7 +157,7 @@ VAR _group =
 
 RETURN AVERAGEX(_group, '01_Powerlifting_facts'[squat])
 ```
-*💬 Computes the average squat value within the filtered comparison group.*
+*Commentary: Computes the average squat value within the filtered comparison group.*
 
 ```
 Squat Group Size = 
@@ -176,7 +176,7 @@ VAR _group =
 
 RETURN COUNTROWS(_group)
 ```
-*💬 Returns the number of valid entries in the comparison group (sample size).*
+*Commentary: Returns the number of valid entries in the comparison group (sample size).*
 
 ```
 Squat Percentile in Group = 
@@ -200,7 +200,7 @@ VAR _total = COUNTROWS(_group)
 
 RETURN DIVIDE(_lower_or_equal, _total)
 ```
-*💬 Calculates user's percentile based on squat value relative to filtered group (same sex, age, weight class, and optionally country).*
+*Commentary: Calculates user's percentile based on squat value relative to filtered group (same sex, age, weight class, and optionally country).*
 
 ```
 Squat Summary Text = 
@@ -231,19 +231,19 @@ IF(
     _feedback
 )
 ```
-*💬  Generates a summary message with percentile rank and lifter level classification for squat.*
+*Commentary: Generates a summary message with percentile rank and lifter level classification for squat.*
 
 ## Deadlift Card
 
 ```
 Deadlift Input = GENERATESERIES(0, 500, 1)
 ```
-*💬 Creates a numeric input range (kg) for user-entered lift values.*
+*Commentary: Creates a numeric input range (kg) for user-entered lift values.*
 
 ```
 Deadlift User Value = SELECTEDVALUE('11. Lift Comparison - Deadlift'[Deadlift Input])
 ```
-*💬 Returns the user's selected deadlift value from the input slicer.*
+*Commentary: Returns the user's selected deadlift value from the input slicer.*
 
 ```
 Deadlift Group Avg = 
@@ -262,7 +262,7 @@ VAR _group =
 
 RETURN AVERAGEX(_group, '01_Powerlifting_facts'[deadlift])
 ```
-*💬 Computes the average deadlift value within the filtered comparison group.*
+*Commentary: Computes the average deadlift value within the filtered comparison group.*
 
 ```
 Deadlift Group Size = 
@@ -281,7 +281,7 @@ VAR _group =
 
 RETURN COUNTROWS(_group)
 ```
-*💬 Returns the number of valid entries in the comparison group (sample size).*
+*Commentary: Returns the number of valid entries in the comparison group (sample size).*
 
 ```
 Deadlift Percentile in Group = 
@@ -305,7 +305,7 @@ VAR _total = COUNTROWS(_group)
 
 RETURN DIVIDE(_lower_or_equal, _total)
 ```
-*💬 Calculates user's percentile based on deadlift value relative to filtered group (same sex, age, weight class, and optionally country).*
+*Commentary: Calculates user's percentile based on deadlift value relative to filtered group (same sex, age, weight class, and optionally country).*
 
 ```
 Deadlift Summary Text = 
@@ -336,11 +336,11 @@ IF(
     _feedback
 )
 ```
-*💬 Generates a summary message with percentile rank and lifter level classification for deadlift.*
+*Commentary: Generates a summary message with percentile rank and lifter level classification for deadlift.*
 
 ## Your Best Lifts vs Group Average
 
-*💬 Uses the Lift Selector table (defined on page 4) to dynamically control SWITCH-based logic — assigning measures based on selected lift (Squat, Bench, Deadlift).*
+*Commentary: Uses the Lift Selector table (defined on page 4) to dynamically control SWITCH-based logic — assigning measures based on selected lift (Squat, Bench, Deadlift).*
 
 ```
 Lift User Value = 
@@ -351,7 +351,7 @@ SWITCH(
     "Deadlift", [Deadlift User Value]
 )
 ```
-*💬 Returns the lift value entered by the user for the currently selected lift.*
+*Commentary: Returns the lift value entered by the user for the currently selected lift.*
 
 ```
 Lift Group Avg = 
@@ -362,4 +362,4 @@ SWITCH(
     "Deadlift", [Deadlift Group Avg]
 )
 ```
-*💬 Calculates the average lift value in the selected group for the currently selected lift (Bench, Squat, or Deadlift).*
+*Commentary: Calculates the average lift value in the selected group for the currently selected lift (Bench, Squat, or Deadlift).*

@@ -128,7 +128,7 @@ WHERE bodyweightkg < 30;
 -- Standardize missing country values using COALESCE → replace NULLs with 'Unknown'
 
 UPDATE powerlifting_cleaned
-SET country_lifter = COALESCE(country_lifter, 'Unknown');
+SET country = COALESCE(country, 'Unknown');
 
 -- Rename key columns for schema consistency and easier downstream analysis
 
@@ -241,7 +241,8 @@ SELECT DISTINCT ON (name, sex)
 FROM powerlifting_cleaned
 WHERE name IS NOT NULL;
 
--- Lifters identified by name + sex (avoids ambiguity caused by inconsistent or missing country values)
+-- Lifters are identified by OpenPowerlifting `name` (includes `#` disambiguation when present) + `sex`.
+-- `country_lifter` is treated as auxiliary metadata and may be inconsistent/missing across entries.
 
 -- Populate dim_meet
 

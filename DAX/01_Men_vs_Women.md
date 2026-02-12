@@ -1,4 +1,4 @@
-# 🏋️🏋️‍♀️ Men vs Women
+# Men vs Women
 
 ## Q1: How many total meet entries and unique lifters are recorded?
 
@@ -14,7 +14,7 @@ RETURN
 "Total Meet Entries: " & _formatted_count & UNICHAR(10) &
 "Unique Lifters: " & _formatted_lifters
 ```
-*💬 Dynamically returns a multiline label showing the total number of entries and distinct lifters.*
+*Commentary: Dynamically returns a multiline label showing the total number of entries and distinct lifters.*
 
 ## Q5: What is the breakdown of lift combinations by sex?
 
@@ -28,7 +28,7 @@ DIVIDE(
     )
 )
 ```
-*💬 Calculates the percentage of each lift combination type (Full, Two-lift, Single-lift) among entries that have a valid classification.*
+*Commentary: Calculates the percentage of each lift combination type (Full, Two-lift, Single-lift) among entries that have a valid classification.*
 
 ## Q6: Among single-lift entries, which event is most popular by sex?
 
@@ -49,7 +49,7 @@ DIVIDE(
     TotalSingleLiftForSex
 )
 ```
-*💬 Computes the share of entries (within a given sex) that participated in a specific single-lift event (e.g., Bench-only).*
+*Commentary: Computes the share of entries (within a given sex) that participated in a specific single-lift event (e.g., Bench-only).*
 
 ## Q7: How much does each lift contribute to the total (by sex)?
 
@@ -65,7 +65,7 @@ RETURN
     AVERAGEX(_valid_entries, '01_Powerlifting_facts'[bench]) +
     AVERAGEX(_valid_entries, '01_Powerlifting_facts'[deadlift])
 ```
-*💬 Helper measure used in all 3 lift contribution metrics. Calculates the combined average of squat, bench, and deadlift from valid entries.*
+*Commentary: Helper measure used in all 3 lift contribution metrics. Calculates the combined average of squat, bench, and deadlift from valid entries.*
 
 ```
 Bench % of Total (Valid Only) = 
@@ -105,4 +105,4 @@ VAR _avg_total = [Total Avg Lift Sum (Valid Only)]
 RETURN 
 IF(_avg_total > 0, _avg_squat / _avg_total)
 ```
-*💬 These three measures calculate the relative contribution of each lift to the total performance, based on valid entries with non-null totals. They help visualize which lift contributes most to an athlete’s overall result, enabling comparison across sexes and groups.*
+*Commentary: These three measures calculate the relative contribution of each lift to the total performance, based on valid entries with non-null totals. They help visualize which lift contributes most to an athlete’s overall result, enabling comparison across sexes and groups.*

@@ -1,4 +1,4 @@
--- # 🌍 Competition Landscape
+-- Competition Landscape
 
 -- Q1: How many lifters compete only once vs multiple times?
 
@@ -16,8 +16,7 @@ FROM (
 ) sub
 GROUP BY competition_type;
 
--- Categorizes lifters into two groups based on how often they appear across meets.
--- Result is presented as percent share of unique lifters by participation pattern.
+-- Percent share of unique lifters grouped by how many distinct meets they entered.
 
 -- Q2: What percentage of meet entries are tested for drugs?
 
@@ -28,8 +27,7 @@ FROM powerlifting_facts
 GROUP BY tested_status
 ORDER BY pct_lifters DESC;
 
--- Based on derived 'tested_status' column (Tested / Untested).
--- Shows overall drug-testing prevalence among all entries.
+-- Share of meet entries by tested_status (Tested / Untested).
 
 -- Q3: How has the number of meet entries changed over time?
 
@@ -41,8 +39,7 @@ JOIN dim_meet m ON f.meet_id = m.meet_id
 GROUP BY m.meet_year
 ORDER BY m.meet_year;
 
--- Uses extracted meet_year from the meet dimension table.
--- Helps illustrate the global growth or decline in participation.
+-- Annual meet-entry count by meet_year (from dim_meet).
 
 -- Q4: Where do meets take place most often?
 
@@ -56,8 +53,7 @@ GROUP BY m.meet_country
 ORDER BY total_meets DESC
 LIMIT 5;
 
--- Returns the top countries by number of distinct meet IDs held there.
--- 'Unknown' locations are excluded to ensure data quality.
+-- Top countries by distinct meet_id count (excluding 'Unknown').
 
 -- Q5: How many countries have hosted powerlifting meets?
 
@@ -66,8 +62,7 @@ SELECT
 FROM dim_meet
 WHERE meet_country IS NOT NULL AND meet_country <> 'Unknown';
 
--- Returns the number of distinct countries where at least one meet was recorded.
--- 'Unknown' entries are excluded to ensure only valid locations are counted.
+-- Distinct meet_country values in dim_meet (excluding 'Unknown').
 
 -- Q6: What is the total number of meets held globally?
 
@@ -76,9 +71,7 @@ SELECT
 FROM dim_meet
 WHERE meet_country IS NOT NULL AND meet_country <> 'Unknown';
 
--- Calculates the total number of distinct meet events in the dataset.
--- Aggregates across all countries and federations.
--- Only includes entries with valid meet_country.
+-- Total distinct meets in dim_meet with a valid meet_country.
 
 -- Q7: How many federations are represented?
 
@@ -87,7 +80,7 @@ SELECT
 FROM dim_meet m
 WHERE m.federation IS NOT NULL;
 
--- Counts the number of unique federations hosting meets in the dataset.
+-- Distinct federation values in dim_meet.
 
 -- Q8: Which federations host the most meet entries?
 
@@ -100,8 +93,7 @@ GROUP BY m.federation
 ORDER BY total_entries DESC
 LIMIT 5;
 
--- Aggregates all competition entries by hosting federation.
--- Returns the top 5 federations by volume.
+-- Top federations by meet-entry volume.
 
 -- Q9: Which competitions have the most entries?
 
@@ -114,5 +106,4 @@ GROUP BY m.meet_name
 ORDER BY total_entries DESC
 LIMIT 5;
 
--- Shows the most popular competitions based on number of entries.
--- Limited to top 5 by meet_name.
+-- Top competitions by meet-entry volume (grouped by meet_name).

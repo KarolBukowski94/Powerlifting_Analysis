@@ -1,4 +1,4 @@
-# 🌍 Competition Landscape
+# Competition Landscape
 
 ## Q1: How many lifters compete only once vs multiple times?
 
@@ -12,7 +12,7 @@ DATATABLE(
     }
 )
 ```
-*💬 Helper table defining the two categories of participation (single vs multiple meets). Used to drive SWITCH logic in calculated measure.*
+*Commentary: Helper table defining the two categories of participation (single vs multiple meets). Used to drive SWITCH logic in calculated measure.*
 
 ```
 % of Lifters (Filtered) = 
@@ -43,7 +43,7 @@ SWITCH(
     "Multiple meets", DIVIDE(MultiMeet, Total)
 )
 ```
-*💬 Calculates the share of lifters who competed once vs multiple times.*
+*Commentary: Calculates the share of lifters who competed once vs multiple times.*
 
 ## Q2: What percentage of meet entries are tested for drugs?
 
@@ -61,7 +61,7 @@ VAR CurrentGroupEntries =
 RETURN
 DIVIDE(CurrentGroupEntries, TotalEntries)
 ```
-*💬 Calculates the percentage of entries that are in tested federations.*
+*Commentary: Calculates the percentage of entries that are in tested federations. Percentage is computed over meet entries (rows), not distinct lifters.*
 
 ## Q5: How many countries have hosted powerlifting meets?
 
@@ -69,7 +69,7 @@ DIVIDE(CurrentGroupEntries, TotalEntries)
 Country Count - Label = 
 "Number of Countries: " & COUNTROWS(VALUES('03_Dim_meet'[meet_country]))
 ```
-*💬 Dynamic label showing number of countries with powerlifting meets.*
+*Commentary: Dynamic label showing number of countries with powerlifting meets.*
 
 ## Q6: What is the total number of meets held globally?
 
@@ -78,7 +78,7 @@ Meet Count - Label =
 "Number of Meets: " & 
 FORMAT(COUNTROWS(VALUES('03_Dim_meet'[meet_id])) / 1000, "0.0") & "K"
 ```
-*💬 Dynamic label showing total number of meets globally.*
+*Commentary: Dynamic label showing total number of meets globally.*
 
 ## Q7: How many federations are represented?
 
@@ -86,4 +86,4 @@ FORMAT(COUNTROWS(VALUES('03_Dim_meet'[meet_id])) / 1000, "0.0") & "K"
 Federation Count - Label = 
 "Number of Federations: " & COUNTROWS(VALUES('03_Dim_meet'[federation]))
 ```
-*💬 Dynamic label showing number of federations.*
+*Commentary: Dynamic label showing number of federations.*

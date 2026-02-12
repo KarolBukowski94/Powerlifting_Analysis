@@ -1,8 +1,6 @@
--- # 🧤 Equipment Analysis 
+-- Equipment Analysis
 
--- NOTE:
--- All queries explicitly exclude entries labeled with 'Straps', as these are non-competition setups not sanctioned by federations.
--- This ensures consistency with Power BI filters and real-world meet conditions.
+-- Project filter: entries with equipment = 'Straps' are excluded throughout, to align with report filters.
 
 -- Q1: What is the distribution of equipment types among meet entries?
 
@@ -14,7 +12,7 @@ WHERE equipment <> 'Straps'
 GROUP BY equipment
 ORDER BY percent_share DESC;
 
--- Returns percentage share of each equipment category (e.g., Raw, Wraps, Single-ply).
+-- Percent share of each equipment category among meet entries.
 
 -- Q2: By how much does each equipment type improve performance compared to Raw?
 
@@ -47,8 +45,8 @@ FROM equipped_avg e
 CROSS JOIN raw_avg r
 ORDER BY bench_gain_pct DESC;
 
--- Calculates lift-specific gain (%) relative to Raw baseline.
--- Compares average result per lift between Raw and other equipment types.
+-- Lift-specific gain (%) relative to the Raw baseline.
+-- Filtered to entries with total recorded; AVG ignores NULLs for individual lifts.
 
 -- Q3: What is the disqualification rate across all entries?
 
@@ -59,9 +57,8 @@ SELECT
     ) AS dq_rate_pct
 FROM powerlifting_facts;
 
--- Calculates the percentage of entries with no total value (total IS NULL).
--- This reflects disqualifications, failed attempts, or incomplete results.
-
+-- Note: `total IS NULL` is used as a proxy for "no total recorded" (typically bomb-out / disqualification).
+-- Exact DQ separation would require `place` (not stored in this model).
 
 -- Q4: What is the average total by equipment type in full competitions?
 
@@ -77,8 +74,7 @@ WHERE total IS NOT NULL
 GROUP BY equipment
 ORDER BY avg_total DESC;
 
--- Includes only valid full meet entries (squat + bench + deadlift + total ≠ NULL).
--- Helps quantify overall performance level in each equipment category.
+-- Full competitions only (S+B+D present and total recorded), excluding 'Straps'.
 
 -- Q5: What is the average lift result (per type) by equipment?
 
@@ -93,5 +89,5 @@ WHERE total IS NOT NULL
 GROUP BY equipment
 ORDER BY equipment;
 
--- Compares average squat, bench, and deadlift for each equipment type.
--- Includes only entries with valid total (to exclude disqualifications).
+-- Average lift values by equipment among entries with total recorded (excludes total-null entries).
+-- AVG ignores NULLs for individual lifts.

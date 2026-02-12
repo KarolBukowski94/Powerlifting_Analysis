@@ -1,2 +1,13 @@
+# raw data / big files
 /data.csv
-/Power_BI_Report.pbix
+
+# Power BI
+*.pbix
+*.pbit
+*.pbip
+*.pbi
+
+# local dev
+.vscode/
+.DS_Store
+Thumbs.db

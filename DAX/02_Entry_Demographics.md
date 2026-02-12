@@ -1,4 +1,4 @@
-# 👥 Entry Demographics
+# Entry Demographics
 
 ## Q2: Which age groups compete the most?
 
@@ -19,7 +19,7 @@ DATATABLE(
     }
 )
 ```
-*💬 Lookup table used to define lifter age groups and enforce correct sorting in visualizations.*
+*Commentary: Lookup table used to define lifter age groups and enforce correct sorting in visualizations.*
 
 ```
 % of Entries by Age Group = 
@@ -35,7 +35,7 @@ DIVIDE(
     )
 )
 ```
-*💬 Calculates the distribution of lifters across age groups.*
+*Commentary: Calculates the distribution of meet entries across age groups.*
 
 ## Q3: Which weight classes (kg) are most common by sex?
 
@@ -66,7 +66,7 @@ DATATABLE(
     }
 )
 ```
-*💬 Lookup table used to define weight classes by sex and apply consistent sorting in charts.*
+*Commentary: Lookup table used to define weight classes by sex and apply consistent sorting in charts.*
 
 ```
 % of Entries by Weight Class = 
@@ -82,4 +82,4 @@ DIVIDE(
     )
 )
 ```
-*💬Calculates the distribution of lifters across weight classes.*
+*Commentary: Calculates the distribution of meet entries across weight classes.*

@@ -1,11 +1,12 @@
--- 🏆 Hall of Fame
+-- Hall of Fame
 
 -- CREATE VIEW: top_lifter_facts
+-- Purpose: one row per lifter with best lifts + participation and wins.
 
 CREATE OR REPLACE VIEW top_lifter_facts AS
-WITH 
+WITH
 
--- 🔹 Best total per lifter (if available)
+-- Best total per lifter (if available)
 best_total AS (
     SELECT 
         lifter_id,
@@ -15,7 +16,7 @@ best_total AS (
     GROUP BY lifter_id
 ),
 
--- 🔹 Meet details where best total occurred (used to extract equipment)
+-- Meet details where best total occurred (used to extract equipment)
 best_total_details AS (
     SELECT DISTINCT ON (f.lifter_id)
         f.lifter_id,
@@ -29,9 +30,9 @@ best_total_details AS (
              f.bench DESC
 ),
 
--- If a lifter has multiple entries with the same best total, the one with the highest bench is used as the representative row.
+-- Tie-break rule: if multiple entries share the same best total, pick the row with the highest bench as the representative record.
 
--- 🔹 Best bench per lifter (from valid totals only)
+-- Best bench per lifter (from entries with total recorded)
 best_bench AS (
     SELECT DISTINCT ON (f.lifter_id)
         f.lifter_id, f.bench
@@ -40,7 +41,7 @@ best_bench AS (
     ORDER BY f.lifter_id, f.bench DESC
 ),
 
--- 🔹 Best squat per lifter (from valid totals only)
+-- Best squat per lifter (from entries with total recorded)
 best_squat AS (
     SELECT DISTINCT ON (f.lifter_id)
         f.lifter_id, f.squat
@@ -49,7 +50,7 @@ best_squat AS (
     ORDER BY f.lifter_id, f.squat DESC
 ),
 
--- 🔹 Best deadlift per lifter (from valid totals only)
+-- Best deadlift per lifter (from entries with total recorded)
 best_deadlift AS (
     SELECT DISTINCT ON (f.lifter_id)
         f.lifter_id, f.deadlift
@@ -58,7 +59,7 @@ best_deadlift AS (
     ORDER BY f.lifter_id, f.deadlift DESC
 ),
 
--- 🔹 Aggregated meet participation and wins (raw counts)
+-- Aggregated participation and wins (raw counts)
 aggregates AS (
     SELECT
         lifter_id,
@@ -68,7 +69,7 @@ aggregates AS (
     GROUP BY lifter_id
 )
 
--- 🔹 Final lifter-centric output
+-- Final lifter-centric output
 SELECT
     l.lifter_id,
     l.name,
@@ -88,19 +89,20 @@ LEFT JOIN best_squat sq ON sq.lifter_id = l.lifter_id
 LEFT JOIN best_deadlift dl ON dl.lifter_id = l.lifter_id
 LEFT JOIN aggregates agg ON agg.lifter_id = l.lifter_id;
 
--- The view combines best lifts and win stats per lifter into a single record.
--- Only entries with total IS NOT NULL are considered (disqualifications excluded).
+-- Notes:
+-- - Best total and best lifts exclude total-null entries (disqualified/incomplete).
+-- - meet_count and win_count are computed over all fact rows for the lifter (as defined in powerlifting_facts).
 
 -- Q1: Top 3 lifters with the most competitions entered
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, meet_count
 FROM top_lifter_facts
 WHERE sex = 'Male' AND meet_count IS NOT NULL
 ORDER BY meet_count DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, meet_count
 FROM top_lifter_facts
 WHERE sex = 'Female' AND meet_count IS NOT NULL
@@ -109,14 +111,14 @@ LIMIT 3;
 
 -- Q2: Top 3 lifters with the most competition wins
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, win_count
 FROM top_lifter_facts
 WHERE sex = 'Male' AND win_count IS NOT NULL
 ORDER BY win_count DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, win_count
 FROM top_lifter_facts
 WHERE sex = 'Female' AND win_count IS NOT NULL
@@ -125,14 +127,14 @@ LIMIT 3;
 
 -- Q3: Top 3 lifters by all-time total (kg)
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, total
 FROM top_lifter_facts
 WHERE sex = 'Male' AND total IS NOT NULL
 ORDER BY total DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, total
 FROM top_lifter_facts
 WHERE sex = 'Female' AND total IS NOT NULL
@@ -141,14 +143,14 @@ LIMIT 3;
 
 -- Q4: Best bench press results (top 3)
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, bench
 FROM top_lifter_facts
 WHERE sex = 'Male' AND bench IS NOT NULL
 ORDER BY bench DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, bench
 FROM top_lifter_facts
 WHERE sex = 'Female' AND bench IS NOT NULL
@@ -157,14 +159,14 @@ LIMIT 3;
 
 -- Q5: Best deadlift results (top 3)
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, deadlift
 FROM top_lifter_facts
 WHERE sex = 'Male' AND deadlift IS NOT NULL
 ORDER BY deadlift DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, deadlift
 FROM top_lifter_facts
 WHERE sex = 'Female' AND deadlift IS NOT NULL
@@ -173,21 +175,16 @@ LIMIT 3;
 
 -- Q6: Best squat results (top 3)
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 SELECT name, squat
 FROM top_lifter_facts
 WHERE sex = 'Male' AND squat IS NOT NULL
 ORDER BY squat DESC
 LIMIT 3;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 SELECT name, squat
 FROM top_lifter_facts
 WHERE sex = 'Female' AND squat IS NOT NULL
 ORDER BY squat DESC
 LIMIT 3;
-
-SELECT name, sex, country_lifter, COUNT(*) AS cnt
-FROM dim_lifter
-WHERE name = 'Bonnie Aerts' AND sex = 'Female'
-GROUP BY name, sex, country_lifter;

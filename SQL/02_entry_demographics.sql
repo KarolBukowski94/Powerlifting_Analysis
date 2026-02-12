@@ -1,4 +1,4 @@
--- # 👥 Entry Demographics
+-- Entry Demographics
 
 -- Q1: Where do most competing lifters come from?
 
@@ -12,8 +12,7 @@ GROUP BY l.country_lifter
 ORDER BY entry_count DESC
 LIMIT 5;
 
--- Returns top 5 countries by number of recorded entries.
--- Country field was standardized in cleaning step; 'Unknown' is excluded.
+-- Top 5 lifter countries by meet-entry count (excluding 'Unknown').
 
 -- Q2: Which age groups compete the most?
 
@@ -36,13 +35,13 @@ ORDER BY
         ELSE 99
     END;
 
--- Uses derived 'age_group' column assigned in populating step.
--- Returns percentage share of each age group across all valid entries.
--- Age group boundaries match IPF-style classification, including 'Youth (8–13)'.
+-- Uses derived age_group assigned during the populate step.
+-- Percent shares are computed across rows where age_group is not null.
+-- Age group boundaries follow an IPF-style classification.
 
 -- Q3: Which weight classes (kg) are most common by sex?
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 
 WITH male_entries AS (
     SELECT 
@@ -73,7 +72,7 @@ ORDER BY
         WHEN e.weight_class = '120+' THEN 8
     END;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 
 WITH female_entries AS (
     SELECT 
@@ -105,8 +104,7 @@ ORDER BY
         WHEN e.weight_class = '84+' THEN 9
     END;
 
--- Based on IPF official weight classes for men and women.
--- Percentages computed within each sex group to show distribution.
+-- Percent shares are computed within each sex group.
 
 -- Q4: How does age affect lifting performance?
 
@@ -118,12 +116,11 @@ WHERE age IS NOT NULL AND dots IS NOT NULL
 GROUP BY age_year
 ORDER BY age_year;
 
--- Average DOTS score by age (rounded down to integer).
--- Only entries with known age and valid DOTS value are included.
+-- Average DOTS by age (age floored to integer). Requires non-null age and dots.
 
 -- Q5: How does bodyweight affect lifting performance?
 
--- 🏋️‍♂️ Male lifters
+-- Male lifters
 
 SELECT 
     FLOOR(bodyweight) AS bodyweight_bin,
@@ -140,7 +137,7 @@ WHERE
 GROUP BY bodyweight_bin
 ORDER BY bodyweight_bin;
 
--- 🏋️‍♀️ Female lifters
+-- Female lifters
 
 SELECT 
     FLOOR(bodyweight) AS bodyweight_bin,
@@ -157,6 +154,5 @@ WHERE
 GROUP BY bodyweight_bin
 ORDER BY bodyweight_bin;
 
--- Average total by rounded bodyweight bins.
--- Only valid full competitions are included (all 3 lifts + total present).
--- Split by sex.
+-- Average total by floored bodyweight bins.
+-- Uses completed full competitions only (S+B+D+total present), split by sex.

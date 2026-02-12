@@ -1,4 +1,4 @@
-# 🧤 Equipment Analysis 
+# Equipment Analysis 
 
 ## Q1: What is the distribution of equipment types among meet entries?
 
@@ -12,7 +12,7 @@ DIVIDE(
     )
 )
 ```
-*💬 Calculates the distribution of entries across different equipment types (e.g., Raw, Single-ply, Multi-ply).*
+*Commentary: Calculates the distribution of entries across different equipment types (e.g., Raw, Single-ply, Multi-ply).*
 
 ## Q2: By how much does each equipment type improve performance compared to Raw?
 
@@ -26,7 +26,7 @@ DIVIDE(
     }
 )
 ```
-*💬 Helper table used to let users select lift type (Squat, Bench, Deadlift) in slicers or visuals.*
+*Commentary: Helper table used to let users select lift type (Squat, Bench, Deadlift) in slicers or visuals.*
 
 ```
 Gain vs Raw % = 
@@ -74,8 +74,7 @@ SWITCH(
     BLANK()
 )
 ```
-
-*💬 Calculates the average performance improvement (in %) of each equipment type compared to Raw, based on selected lift type. Ignores disqualified entries.
+*Commentary: Calculates the average performance improvement (in %) of each equipment type compared to Raw, based on selected lift type. Ignores disqualified entries.
 
 ## Q3: What is the disqualification rate across all entries?
 
@@ -85,15 +84,15 @@ VAR dq = CALCULATE(COUNTROWS('01_Powerlifting_facts'), ISBLANK('01_Powerlifting_
 VAR totalRows = COUNTROWS('01_Powerlifting_facts')
 RETURN DIVIDE(dq, totalRows) * 100
 ```
-*💬 Calculates the disqualification rate among all meet entries.*
+*Commentary: Calculates the **no-total rate** (`total` blank) used as a proxy for bomb-out / disqualification (no recorded total).*
 
 ```
 Disqualification - Label = 
 VAR _dqRate = [Disqualification - % of Entries]
 RETURN 
-"❌ Disqualification Rate: " & FORMAT(_dqRate, "0.0") & "%"
+"Disqualification Rate: " & FORMAT(_dqRate, "0.0") & "%"
 ```
-*💬 Dynamic label displaying the disqualification rate with context text (used in card or tooltip).*
+*Commentary: Dynamic label displaying the disqualification rate with context text (used in card or tooltip).*
 
 ## Q5: What is the average lift result (per type) by equipment?
 
@@ -123,4 +122,4 @@ RETURN
         )
     )
 ```
-*💬 Calculates the user's average lift (if multiple values are selected or compared).*
+*Commentary: Calculates the user's average lift (if multiple values are selected or compared).*
