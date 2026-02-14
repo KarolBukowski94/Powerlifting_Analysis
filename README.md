@@ -1,4 +1,4 @@
-﻿# Powerlifting Analysis
+﻿# Powerlifting Analysis — SQL + Power BI
 
 ## Project Summary
 
